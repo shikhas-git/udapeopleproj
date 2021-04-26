@@ -110,7 +110,7 @@ jobs:
               --stack-name "backend-${CIRCLE_WORKFLOW_ID}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}" 
             URLS=$(aws ec2 describe-instances --region us-east-2 --query "Reservations[*].Instances[*].PublicIpAddress" \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" --output text
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" --output text)
             echo "URLS=$URLS"
             echo "${CIRCLE_WORKFLOW_ID}"
             curl -H "Content-Type: text/plain" -H "token: 0283ded2-6353-453c-b2e1-53c8e2f96048" --request PUT \
