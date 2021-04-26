@@ -105,7 +105,7 @@ jobs:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/backend.yml \
+              --template-file ./.circleci/files/backend.yml \
               --tags project=udapeople \
               --stack-name "backend-${CIRCLE_WORKFLOW_ID}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}" 
@@ -119,7 +119,7 @@ jobs:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
+              --template-file ./.circleci/files/frontend.yml \
               --tags project=udapeople \
               --stack-name "frontend-${CIRCLE_WORKFLOW_ID}"  \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
@@ -132,7 +132,7 @@ jobs:
           command: |
             curl -H "Content-Type: text/plain" -H "token: 0283ded2-6353-453c-b2e1-53c8e2f96048" --request GET \
             https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
-            echo "$URLS" >> .circleci/ansible/inventory.txt
+            echo "$URLS" >> ./.circleci/ansible/inventory.txt
             cat inventory.txt
       - persist_to_workspace:
           root: udapeopleproj/.circleci/ansible/
