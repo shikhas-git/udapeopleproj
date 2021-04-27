@@ -220,6 +220,27 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID}".tar.gz dist
             aws s3 sync dist s3://udapeople-${CIRCLE_WORKFLOW_ID}
+            
+  deploy-backend:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["c4:8d:74:26:8f:f8:15:aa:eb:4b:8c:66:2f:fc:ee:d4"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update tar gzip ansible nodejs npm
+            pip install awscli
+      - run:
+          name: Deploy backend
+          command: |
+            tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt deploy-backend.yml
 
 workflows:
   default:
@@ -241,5 +262,7 @@ workflows:
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
           requires: [run-migrations]
       
