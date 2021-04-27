@@ -165,9 +165,8 @@ jobs:
       - checkout
       - run:
           name: Run migrations
-          working_directory: ./backend
           command: |
-            cat > ./backend/.env 
+            touch ./backend/.env
             echo -e "TYPEORM_HOST=$TYPEORM_HOST \
             TYPEORM_CONNECTION=$TYPEORM_CONNECTION \
             TYPEORM_PORT=$TYPEORM_PORT \
