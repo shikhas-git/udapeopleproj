@@ -176,14 +176,14 @@ jobs:
             TYPEORM_DATABASE=$TYPEORM_DATABASE \n
             TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS \n
             TYPEORM_ENTITIES=$TYPEORM_ENTITIES \n
-            ENVIRONMENT=$ENVIRONMENT" >> .env
+            ENVIRONMENT=$ENVIRONMENT" > .env
             cat .env
             npm install
-            npm run migrations > migration_result
+            npm run migrations > migration_result.txt
       - run:
           name: Send migration results to memstash
           command: |
-            if grep -q "has been executed successfully"  migration_result
+            if grep -q "has been executed successfully"  migration_result.txt
             then
               echo "Migration success- Update memstash"
               curl -H "Content-Type: text/plain" -H "token: 30f7cb09-23d2-46d6-b2b9-fd13579be334" --request PUT \
