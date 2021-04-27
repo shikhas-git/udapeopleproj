@@ -167,6 +167,15 @@ jobs:
           name: Run migrations
           working_directory: ./backend
           command: |
+            echo -e "TYPEORM_HOST=$TYPEORM_HOST \
+            TYPEORM_CONNECTION=$TYPEORM_CONNECTION \
+            TYPEORM_PORT=$TYPEORM_PORT \
+            TYPEORM_USERNAME=$TYPEORM_USERNAME \
+            TYPEORM_PASSWORD=$TYPEORM_PASSWORD \
+            TYPEORM_DATABASE=$TYPEORM_DATABASE \
+            TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS \
+            TYPEORM_ENTITIES=$TYPEORM_ENTITIES \
+            ENVIRONMENT=$ENVIRONMENT" > ./backend/.env
             npm i
             npm run migrations > migration_result
       - run:
