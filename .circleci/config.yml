@@ -165,6 +165,7 @@ jobs:
       - checkout
       - run:
           name: Run migrations
+          working_directory: ./backend
           command: |
             npm i
             npm run migrations > migration_result
