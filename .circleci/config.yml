@@ -165,6 +165,7 @@ jobs:
       - checkout
       - run:
           name: Run migrations
+          working_directory: ./backend
           command: |
             touch ./backend/.env
             echo -e "TYPEORM_HOST=$TYPEORM_HOST \
@@ -176,6 +177,7 @@ jobs:
             TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS \
             TYPEORM_ENTITIES=$TYPEORM_ENTITIES \
             ENVIRONMENT=$ENVIRONMENT" >> ./backend/.env
+            cat ./backend/.env
             npm i
             npm run migrations > migration_result
       - run:
