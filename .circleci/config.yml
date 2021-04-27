@@ -123,8 +123,8 @@ jobs:
           command: |
             curl -H "Content-Type: text/plain" -H "token: 0283ded2-6353-453c-b2e1-53c8e2f96048" --request GET \
             https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
-            echo "[web]" > ./.circleci/ansible/inventory.txt
-            echo "$URLS" >>  ./.circleci/ansible/inventory.txt
+            echo '[web]' >> ./.circleci/ansible/inventory.txt
+            echo '$URLS' >>  ./.circleci/ansible/inventory.txt
             cat ./.circleci/ansible/inventory.txt
       - run:
           name: Resolve dependencies
@@ -133,7 +133,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - udapeopleproj/.circleci/ansible/inventory.txt
+            - .circleci/ansible/inventory.txt
   
   configure-infrastructure:
     docker:
@@ -143,7 +143,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["c4:8d:74:26:8f:f8:15:aa:eb:4b:8c:66:2f:fc:ee:d4"]
       - attach_workspace:
-          at: udapeopleproj/.circleci/ansible/
+          at: ~/
       - run:
           name: Install dependencies
           command: |
