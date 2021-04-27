@@ -163,8 +163,6 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - attach_workspace:
-        at: ~/
       - run:
           name: Run migrations
           working_directory: ./backend
