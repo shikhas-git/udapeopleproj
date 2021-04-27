@@ -131,9 +131,9 @@ jobs:
           command: |
             yum -y install tar gzip jq npm 
       - persist_to_workspace:
-          root: ~/
+          root: /root
           paths:
-            - .circleci/ansible/inventory.txt
+            - project
   
   configure-infrastructure:
     docker:
