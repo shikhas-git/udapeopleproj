@@ -168,14 +168,14 @@ jobs:
           command: |
             cd backend
             pwd
-            echo -e "TYPEORM_HOST=$TYPEORM_HOST \
-            TYPEORM_CONNECTION=$TYPEORM_CONNECTION \
-            TYPEORM_PORT=$TYPEORM_PORT \
-            TYPEORM_USERNAME=$TYPEORM_USERNAME \
-            TYPEORM_PASSWORD=$TYPEORM_PASSWORD \
-            TYPEORM_DATABASE=$TYPEORM_DATABASE \
-            TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS \
-            TYPEORM_ENTITIES=$TYPEORM_ENTITIES \
+            echo -e "TYPEORM_HOST=$TYPEORM_HOST \n
+            TYPEORM_CONNECTION=$TYPEORM_CONNECTION \n
+            TYPEORM_PORT=$TYPEORM_PORT \n
+            TYPEORM_USERNAME=$TYPEORM_USERNAME \n
+            TYPEORM_PASSWORD=$TYPEORM_PASSWORD \n
+            TYPEORM_DATABASE=$TYPEORM_DATABASE \n
+            TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS \n
+            TYPEORM_ENTITIES=$TYPEORM_ENTITIES \n
             ENVIRONMENT=$ENVIRONMENT" >> .env
             cat .env
             npm install
