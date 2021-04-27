@@ -157,6 +157,32 @@ jobs:
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
     # Here's where you will add some code to rollback on failure
+    
+  run-migrations:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: Run migrations
+          command: |
+            npm i
+            npm run migrations > migration_result
+      - run:
+          name: Send migration results to memstash
+          command: |
+            if grep -q "has been executed successfully"  migration_result
+            then
+              echo "Migration success- Update memstash"
+              curl -H "Content-Type: text/plain" -H "token: 30f7cb09-23d2-46d6-b2b9-fd13579be334" --request PUT \
+              --data "success" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID} 
+            else
+              echo "Migration failure"
+              curl -H "Content-Type: text/plain" -H "token: 30f7cb09-23d2-46d6-b2b9-fd13579be334" --request PUT \
+              --data "failure" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID} 
+            fi
+            echo "${CIRCLE_WORKFLOW_ID}"
+            
 workflows:
   default:
     jobs:
@@ -174,4 +200,6 @@ workflows:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
       
