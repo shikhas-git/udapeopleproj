@@ -165,9 +165,9 @@ jobs:
       - checkout
       - run:
           name: Run migrations
-          working_directory: ./backend
           command: |
-            touch /.env
+            cd backend
+            pwd
             echo -e "TYPEORM_HOST=$TYPEORM_HOST \
             TYPEORM_CONNECTION=$TYPEORM_CONNECTION \
             TYPEORM_PORT=$TYPEORM_PORT \
@@ -176,9 +176,9 @@ jobs:
             TYPEORM_DATABASE=$TYPEORM_DATABASE \
             TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS \
             TYPEORM_ENTITIES=$TYPEORM_ENTITIES \
-            ENVIRONMENT=$ENVIRONMENT" >> /.env
-            cat /.env
-            npm i
+            ENVIRONMENT=$ENVIRONMENT" >> .env
+            cat .env
+            npm install
             npm run migrations > migration_result
       - run:
           name: Send migration results to memstash
