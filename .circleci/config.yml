@@ -122,6 +122,7 @@ jobs:
           command: |
             curl -H "Content-Type: text/plain" -H "token: 0283ded2-6353-453c-b2e1-53c8e2f96048" --request GET \
             https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
+            echo "[web]\n" >> ./.circleci/ansible/inventory.txt
             echo "$URLS" >> ./.circleci/ansible/inventory.txt
             cat ./.circleci/ansible/inventory.txt
       - run:
@@ -129,11 +130,10 @@ jobs:
           command: |
             yum -y install tar gzip jq npm
       - persist_to_workspace:
-          root: ansible/
+          root: ansible
           paths:
             - .circleci/ansible/inventory.txt
- 
- workflows:
+workflows:
   default:
     jobs:
       - build-frontend
