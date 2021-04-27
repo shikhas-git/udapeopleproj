@@ -121,9 +121,9 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            backend_ip=curl -H "Content-Type: text/plain" -H "token: baca3071-c660-4431-b697-6f9bc4624dd7" --request GET \
-            https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
-            echo '[web]' >> ./.circleci/ansible/inventory.txt
+            echo "[web]" >> ./.circleci/ansible/inventory.txt
+            backend_ip=$(curl -H  "token: baca3071-c660-4431-b697-6f9bc4624dd7" --request GET \
+            https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID})
             echo "$backend_ip" >> ./.circleci/ansible/inventory.txt
             cat ./.circleci/ansible/inventory.txt
       - run:
