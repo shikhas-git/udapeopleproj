@@ -315,27 +315,30 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/employees"
-            if curl -s "http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/employees" | grep -o "Welcome"
+            FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html"
+            if curl -s "http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html" | grep -o "Welcome"
             then
               return 0
             else
               return 1
             fi
-      - run:
-          name: Backend smoke test.
-          command: |
-            PUBLIC_IP=$(curl -H  "token: baca3071-c660-4431-b697-6f9bc4624dd7" --request GET \
-            https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID})
-            if curl -s "http://${PUBLIC_IP}:3030/api/status" | grep "ok"
-            then
-              echo "http://${PUBLIC_IP}:3030/api/status"
-              return 0
-            else
-              echo "http://${PUBLIC_IP}:3030/api/status"
-              return 1
-            fi
-            
+      
+      #- run:
+      #    name: Backend smoke test.
+      #    command: |
+      #      PUBLIC_IP=$(curl -H  "token: baca3071-c660-4431-b697-6f9bc4624dd7" --request GET \
+      #      https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID})
+      #      if curl -s "http://${PUBLIC_IP}:3030/api/status" | grep "ok"
+      #      then
+      #        echo "http://${PUBLIC_IP}:3030/api/status"
+      #        return 0
+      #      else
+      #        echo "http://${PUBLIC_IP}:3030/api/status"
+      #        return 1
+      #      fi
+      - destroy-environment
+      - revert-migrations
+      
 workflows:
   default:
     jobs:
