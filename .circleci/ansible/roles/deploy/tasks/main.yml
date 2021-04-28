@@ -10,19 +10,16 @@
     src: /root/project/backend
     dest: /home/ubuntu/
 
-- name: "Update npm"
+- name: "Update packages"
   become: true
-  shell: |
-    cd /home/ubuntu/backend
-    npm install -g npm@latest
+  apt:
+    upgrade: "yes"
     
-- name: "install package dependencies"
+- name: "install dependencies"
   become: true
-  shell: |
-    cd /home/ubuntu/backend   
-    ls -la
-    npm install
-    npm audit fix --audit-level=critical --force
+  apt:
+    name: ["nodejs", "npm"]
+    upgrade: "yes"
     
 - name: "build package"
   become: true
@@ -33,6 +30,6 @@
 - name: Executing node
   become: true
   shell: |
-    cd /home/ubuntu/backend
+    cd /home/ubuntu/backend 
     pm2 start npm --name backend -- start
     pm2 ls
