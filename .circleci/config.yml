@@ -188,11 +188,11 @@ jobs:
             then
               echo "Migration success"
               curl -H "Content-Type: text/plain" -H "token: 30f7cb09-23d2-46d6-b2b9-fd13579be334" --request PUT \
-              --data "success" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID} 
+              --data "0" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID} 
             else
               echo "Migration failure"
               curl -H "Content-Type: text/plain" -H "token: 30f7cb09-23d2-46d6-b2b9-fd13579be334" --request PUT \
-              --data "failure" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID} 
+              --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID} 
             fi
             echo "${CIRCLE_WORKFLOW_ID}"
             
@@ -236,6 +236,19 @@ jobs:
             apk add --update tar gzip ansible nodejs npm
             pip install awscli
       - run:
+          name: create .env files
+          command: |
+            echo ENVIROMENT=production > "backend/.env"
+            echo TYPEORM_CONNECTION=postgres >> "backend/.env"
+            echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/.env"
+            echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
+            echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> "backend/.env"
+            echo TYPEORM_HOST=$TYPEORM_HOST >> "backend/.env"
+            echo TYPEORM_PORT=$TYPEORM_PORT >> "backend/.env"
+            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
+            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
+            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
+      - run:
           name: Deploy backend
           command: |
             tar -C backend -czvf artifact.tar.gz .
@@ -254,6 +267,16 @@ jobs:
             apk add ansible
             pip3 install awscli
       - run:
+          name: Frontend smoke test.
+          command: |
+            FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html"
+            if curl -s "http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html" | grep -o "Welcome"
+            then
+              return 0
+            else
+              return 1
+            fi
+      - run:
           name: Backend smoke test.
           command: |
             PUBLIC_IP=$(curl -H  "token: baca3071-c660-4431-b697-6f9bc4624dd7" --request GET \
@@ -266,17 +289,7 @@ jobs:
               echo "http://${PUBLIC_IP}:3030/api/status"
               return 1
             fi
-      - run:
-          name: Frontend smoke test.
-          command: |
-            FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html"
-            if curl -s "http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html" | grep -o "Welcome"
-            then
-              return 0
-            else
-              return 1
-            fi
-
+            
 workflows:
   default:
     jobs:
