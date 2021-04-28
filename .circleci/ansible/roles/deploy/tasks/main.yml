@@ -1,14 +1,24 @@
 ---
 
-- name: "Update packages"
-  become: true
-  apt:
-    upgrade: "yes"
-    
 - name: Creates directory
   file:
     path: /home/ubuntu/backend
     state: directory
+   
+- name: Transfer backend files to cloud server
+  copy:
+    src: /root/project/backend
+    dest: /home/ubuntu
+
+- name: "Update apt packages"
+  become: true
+  apt:
+    update_cache: "yes"
+    
+- name: "Upgrade apt packages"
+  become: true
+  apt:
+    upgrade: "yes"
     
 - name: "install dependencies"
   become: true
@@ -16,35 +26,28 @@
     name: ["nodejs", "npm"]
     update_cache: "yes"
     
-- name: Transfer backend files to cloud server
-  copy:
-    src: /root/project/backend
-    dest: /home/ubuntu
+- name: "install pm2"
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
     
-- name: "LS to verify the dist"
-  become: true
-  command: ls
-  args:
-    chdir: /home/ubuntu
+- name: "install typescript"
+  become: yes
+  npm:
+    name: typescript
+    global: yes
+    production: yes
+    state: present
 
-- name: "install npm packages"
+- name: " update dependencies"
   become: true
-  command: npm install -g n
-  args:
-    chdir: /home/ubuntu/backend
-    
-- name: "stable npm packages"
-  become: true
-  command: n stable
-  args:
-    chdir: /home/ubuntu/backend 
-    
-- name: "install npm "
-  become: true
-  command: npm install
-  args:
-    chdir: /home/ubuntu/backend
-    
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    apt-get install -y nodejs  
+    npm install --save glob
 
 - name: "build package"
   become: true
@@ -53,9 +56,12 @@
     chdir: /home/ubuntu/backend
     
 - name: "Executing node"
-  command: pm2 start npm --name backend -- run start
-  args:
-    chdir: /home/ubuntu/backend
+  become: true
+  shell: |
+    cd /home/ubuntu/backend
+    pm2 start npm --name backend -- run start
+    npm run start:prod
+
   environment:
     ENVIRONMENT: production
     TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
