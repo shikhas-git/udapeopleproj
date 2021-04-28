@@ -26,8 +26,8 @@ commands:
           when: on_fail
           command: |
             
-            MIGRATION_RESULT=$(curl -H "token: 30f7cb09-23d2-46d6-b2b9-fd13579be334" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
-            if(( $MIGRATION_RESULT==1 ))
+            MIGRATION_RESULT=$(curl -H "token: 30f7cb09-23d2-46d6-b2b9-fd13579be334" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID})
+            if($MIGRATION_RESULT==1)
             then
               cd ~/project/backend
               npm install
