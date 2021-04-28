@@ -12,10 +12,9 @@
     
 - name: "install dependencies"
   become: true
-  command: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - 
-    sudo apt-get install -y nodejs
-  args:
-    chdir: /home/ubuntu/backend
+  apt:
+    name: ["nodejs", "npm"]
+    update_cache: "yes"
     
 - name: Transfer backend files to cloud server
   copy:
