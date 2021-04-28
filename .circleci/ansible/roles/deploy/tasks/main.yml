@@ -24,9 +24,9 @@
 - name: "build package"
   command: npm run build
   args:
-    chdir: /home/ubuntu
+    chdir: /home/ubuntu/backend
     
 - name: "Executing node"
   command: pm2 start npm --name backend -- run start
   args:
-    chdir: /home/ubuntu
+    chdir: /home/ubuntu/backend
