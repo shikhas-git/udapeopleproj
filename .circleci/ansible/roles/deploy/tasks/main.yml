@@ -1,15 +1,5 @@
 ---
 
-- name: Creates directory
-  file:
-    path: /home/ubuntu/backend
-    state: directory
-
-- name: Transfer backend files to cloud server
-  copy:
-    src: /root/project/backend
-    dest: /home/ubuntu/
-
 - name: "Update packages"
   become: true
   apt:
@@ -21,7 +11,43 @@
     name: ["nodejs", "npm"]
     update_cache: "yes"
     
+- name: Creates directory
+  file:
+    path: /home/ubuntu/backend
+    state: directory
+
+- name: Transfer backend files to cloud server
+  copy:
+    src: /root/project/backend
+    dest: /home/ubuntu/backend
+    
+- name: "LS to verify the dist"
+  become: true
+  command: ls
+  args:
+    chdir: /home/ubuntu
+
+- name: "install npm packages"
+  become: true
+  command: npm install -g n
+  args:
+    chdir: /home/ubuntu/backend
+    
+- name: "stable npm packages"
+  become: true
+  command: n stable
+  args:
+    chdir: /home/ubuntu/backend 
+    
+- name: "install npm "
+  become: true
+  command: npm install
+  args:
+    chdir: /home/ubuntu/backend
+    
+
 - name: "build package"
+  become: true
   command: npm run build
   args:
     chdir: /home/ubuntu/backend
