@@ -1,15 +1,5 @@
 ---
 
-- name: Creates directory
-  file:
-    path: /home/ubuntu/backend
-    state: directory
-   
-- name: Transfer backend files to cloud server
-  copy:
-    src: /root/project/backend
-    dest: /home/ubuntu
-
 - name: "Update apt packages"
   become: true
   apt:
@@ -26,6 +16,28 @@
     name: ["nodejs", "npm"]
     update_cache: "yes"
     
+- name: Creates directory
+  file:
+    path: /home/ubuntu/backend
+    state: directory
+   
+- name: Transfer backend files to cloud server
+  copy:
+    src: /root/project/backend
+    dest: /home/ubuntu
+    
+- name: make sure the latest npm is installed
+  become: true
+  command: npm install -g npm
+  args:
+    chdir: /home/ubuntu/backend
+
+- name: "NPM install"
+  become: true
+  command: npm install
+  args:
+    chdir: /home/ubuntu/backend
+
 - name: "install pm2"
   become: yes
   npm:
@@ -45,9 +57,10 @@
 - name: " update dependencies"
   become: true
   shell: |
+    cd /home/ubuntu/backend
     curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
     apt-get install -y nodejs  
-    npm install --save glob
+    npm install -g n
 
 - name: "build package"
   become: true
