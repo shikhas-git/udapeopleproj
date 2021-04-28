@@ -19,7 +19,7 @@
   become: true
   apt:
     name: ["nodejs", "npm"]
-    upgrade: "yes"
+    update_cache: "yes"
     
 - name: "build package"
   become: true
