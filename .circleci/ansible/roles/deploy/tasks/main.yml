@@ -22,14 +22,11 @@
     update_cache: "yes"
     
 - name: "build package"
-  become: true
-  shell: |
-    cd /home/ubuntu/backend
-    npm run build
+  command: npm run build
+  args:
+  chdir: /home/ubuntu/backend
     
-- name: Executing node
-  become: true
-  shell: |
-    cd /home/ubuntu/backend 
-    pm2 start npm --name backend -- start
-    pm2 ls
+- name: "Executing node"
+  command: pm2 start npm --name backend -- run start
+  args:
+  chdir: /home/ubuntu/backend
