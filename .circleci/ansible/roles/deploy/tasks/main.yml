@@ -5,6 +5,11 @@
   apt:
     upgrade: "yes"
     
+- name: Creates directory
+  file:
+    path: /home/ubuntu/backend
+    state: directory
+    
 - name: "install dependencies"
   become: true
   command: curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - 
@@ -12,11 +17,6 @@
   args:
     chdir: /home/ubuntu/backend
     
-- name: Creates directory
-  file:
-    path: /home/ubuntu/backend
-    state: directory
-
 - name: Transfer backend files to cloud server
   copy:
     src: /root/project/backend
