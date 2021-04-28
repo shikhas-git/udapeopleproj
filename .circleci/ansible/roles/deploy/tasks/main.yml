@@ -19,7 +19,7 @@
 - name: Transfer backend files to cloud server
   copy:
     src: /root/project/backend
-    dest: /home/ubuntu/backend
+    dest: /home/ubuntu
     
 - name: "LS to verify the dist"
   become: true
