@@ -74,7 +74,7 @@
   become: true
   shell: |
     cd /home/ubuntu/backend
-    npm run start
+    sudo npm run start
 
   environment:
     ENVIRONMENT: production
