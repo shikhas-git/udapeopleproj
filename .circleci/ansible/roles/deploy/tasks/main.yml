@@ -69,7 +69,6 @@
   shell: |
     cd /home/ubuntu/backend
     pm2 start npm --name backend -- run start
-    npm run start:prod
 
   environment:
     ENVIRONMENT: production
