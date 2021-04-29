@@ -32,11 +32,6 @@
   args:
     chdir: /home/ubuntu/backend
 
-- name: "NPM install"
-  become: true
-  command: npm install
-  args:
-    chdir: /home/ubuntu/backend
 
 - name: "install pm2"
   become: yes
