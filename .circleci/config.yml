@@ -315,7 +315,7 @@ jobs:
           name: Frontend smoke test.
           command: |
             FRONTEND_URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html"
-            if curl -s "http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us.east-2.amazonaws.com/#/index.html" | grep -o "Welcome"
+            if curl -s "http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website.us-east-2.amazonaws.com/#/index.html" | grep -o "Welcome"
             then
               return 0
             else
@@ -336,8 +336,8 @@ jobs:
               echo "http://${PUBLIC_IP}:3030/api/status"
               return 1
             fi
-      - destroy-environment
-      - revert-migrations
+      #- destroy-environment
+      #- revert-migrations
       
 workflows:
   default:
