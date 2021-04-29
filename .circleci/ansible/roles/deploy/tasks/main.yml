@@ -69,6 +69,11 @@
   shell: |
     cd /home/ubuntu/backend
     pm2 start npm --name backend -- run start
+
+- name: "Running Application"
+  become: true
+  shell: |
+    cd /home/ubuntu/backend
     npm run start
 
   environment:
