@@ -380,7 +380,7 @@ jobs:
       
   cleanup:
     docker:
-      image: amazon/aws-cli
+      - image: amazon/aws-cli
     steps:
       - checkout
       - add_ssh_keys:
@@ -388,7 +388,6 @@ jobs:
       - run:
           name: Get old stack workflow id
           command: |
-            # your code here
             export OldWorkflowId=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --output text)
 
             export STACKS=$(aws cloudformation list-stacks \
@@ -442,4 +441,7 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]
+        
       
