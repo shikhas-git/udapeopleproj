@@ -216,6 +216,7 @@ jobs:
             TYPEORM_DATABASE=$TYPEORM_DATABASE \n
             TYPEORM_MIGRATIONS=$TYPEORM_MIGRATIONS \n
             TYPEORM_ENTITIES=$TYPEORM_ENTITIES \n
+            NODE_ENV=production
             ENVIRONMENT=$ENVIRONMENT" > .env
             cat .env
             npm install

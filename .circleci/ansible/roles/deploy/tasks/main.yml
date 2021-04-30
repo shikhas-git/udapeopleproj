@@ -73,11 +73,12 @@
 - name: "Running Application"
   become: true
   shell: |
-    cd /home/ubuntu/backend
-    sudo npm run start
+    cd /usr/local/bin
+    npm run start
 
   environment:
     ENVIRONMENT: production
+    NODE_ENV: production
     TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
     TYPEORM_MIGRATIONS_DIR: "./migrations"
     TYPEORM_MIGRATIONS: "./migrations/*.js"
