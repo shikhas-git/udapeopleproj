@@ -400,7 +400,7 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
-            if [[ -n "${OldWorkflowID}"]  &&  [ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
+            if [[ -n "${OldWorkflowID}" ]]  &&  [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               # Delete files from bucket
               echo "s3://udapeople-${OldWorkflowID}"
