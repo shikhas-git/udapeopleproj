@@ -66,16 +66,11 @@
     
 - name: "Executing node"
   become: true
-  shell: |
-    cd /home/ubuntu/backend
+  command: 
     pm2 start npm --name backend -- run start
+  args:
+    chdir: /home/ubuntu/backend
 
-- name: "Running Application"
-  become: true
-  shell: |
-    cd /home/ubuntu/backend
-    npm run start
-    pm2 ls
 
   environment:
     ENVIRONMENT: production
