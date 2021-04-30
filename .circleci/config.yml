@@ -388,13 +388,11 @@ jobs:
       - run:
           name: Get old stack workflow id
           command: |
-            export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --output text)
-
+            
             export STACKS=$(aws cloudformation list-stacks \
             --query "StackSummaries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE \
             --no-paginate --output text)
-
 
             echo OldWorkflowID: ${OldWorkflowID}
             echo STACKS: "$STACKS"
@@ -402,7 +400,7 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
-            if [-n "${OldWorkflowID}"  &&  "${STACKS[@]}" =~ "${OldWorkflowID}" ]
+            if [[ -n "${OldWorkflowID}"]  &&  [ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               # Delete files from bucket
               echo "s3://udapeople-${OldWorkflowID}"
