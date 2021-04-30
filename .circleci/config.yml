@@ -389,7 +389,7 @@ jobs:
       - add_ssh_keys:
             fingerprints: [ "c4:8d:74:26:8f:f8:15:aa:eb:4b:8c:66:2f:fc:ee:d4" ]
       - run:
-          name: Get old stack workflow id
+          name: Get old stack workflow id and Cleanup
           command: |
             
             OldWorkflowID=$(curl -H  "token: 87112b30-3ba8-479d-950f-237a49cebbcd" --request GET \
@@ -403,9 +403,6 @@ jobs:
             echo OldWorkflowID: ${OldWorkflowID}
             echo STACKS: "$STACKS"
             
-      - run:
-          name: Remove old stacks and files
-          command: |
             if [[ -n "${OldWorkflowID}" ]]  &&  [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               # Delete files from bucket
