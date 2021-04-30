@@ -392,7 +392,7 @@ jobs:
           name: Get old stack workflow id
           command: |
             
-           OldWorkflowID=$(curl -H  "token: 87112b30-3ba8-479d-950f-237a49cebbcd" --request GET \
+            OldWorkflowID=$(curl -H  "token: 87112b30-3ba8-479d-950f-237a49cebbcd" --request GET \
             https://api.memstash.io/values/id_${CIRCLE_WORKFLOW_ID})  
             
             export STACKS=$(aws cloudformation list-stacks \
