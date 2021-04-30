@@ -75,6 +75,7 @@
   shell: |
     cd /home/ubuntu/backend
     npm run start
+    pm2 ls
 
   environment:
     ENVIRONMENT: production
