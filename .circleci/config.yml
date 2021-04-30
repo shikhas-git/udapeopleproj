@@ -295,15 +295,13 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
-      - run:
-          name: Set timeout for circleci context
-          no_output_timeout: 30m
-      - run:
+     - run:
           name: Deploy backend
           command: |
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
             ansible-playbook -i inventory.txt deploy-backend.yml
+          no_output_timeout: 30m
       #- destroy-environment
       #- revert-migrations
   
