@@ -416,7 +416,7 @@ jobs:
             fi
       
 workflows:
-  default:
+  build:
     jobs:
       - build-frontend
           filters:
