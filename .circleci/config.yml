@@ -419,15 +419,15 @@ workflows:
   default:
     jobs:
       - build-frontend
-        filters:
-          branches:
-            only:
-              - non-prod
+          filters:
+            branches:
+              only:
+                - non-prod
       - build-backend
-        filters:
-          branches:
-            only:
-              - non-prod      
+          filters:
+            branches:
+              only:
+                - non-prod      
       - test-frontend:
           requires: [build-frontend]
           filters:
