@@ -1,0 +1,14 @@
+Provide a URL to your public GitHub repository. [URL01]
+https://github.com/shikhas-git/udapeopleproj.git
+
+Provide the public URL for your S3 Bucket (aka, your front-end). [URL02]
+http://udapeople-8f133508-d09d-4ceb-b6cd-756a59d958b3.s3-website.us-east-2.amazonaws.com/#/index.html
+
+Provide the public URL for your CloudFront distribution (aka, your production front-end). [URL03]
+http://d22hwe9195pj0c.cloudfront.net/index.html
+
+Provide the public URL for your back-end server in EC2. [URL04]
+http://18.116.162.137:3030/api/status
+
+Provide a public URL to your Prometheus Server
+ec2-3-143-230-143.us-east-2.compute.amazonaws.com:9090
